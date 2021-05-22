@@ -8,7 +8,7 @@ glm.fit=glm(mpg~horsepower, data=Auto)
 cv.glm(Auto,glm.fit)$delta #pretty slow (doesnt use formula (5.2) on page 180)
 
 ##Lets write a simple function to use formula (5.2)
-loocv=function(fit){
+loocv=f?nction(fit){
   h=lm.influence(fit)$h
   mean((residuals(fit)/(1-h))^2)
 }
@@ -23,7 +23,7 @@ for(d in degree){
   glm.fit=glm(mpg~poly(horsepower,d), data=Auto)
   cv.error[d]=loocv(glm.fit)
 }
-plot(degree,cv.error,type="b")
+plot(degree,cv.err?r,type="b")
 
 ## 10-fold CV
 
@@ -36,7 +36,7 @@ lines(degree,cv.error10,type="b",col="red")
 
 
 ## Bootstrap
-## Minimum risk investment - Section 5.2
+## Minimum risk investment - ?ection 5.2
 
 alpha=function(x,y){
   vx=var(x)
@@ -52,7 +52,7 @@ alpha.fn=function(data, index){
   with(data[index,],alpha(X,Y))
 }
 
-alpha.fn(Portfolio,1:100)
+alpha.fn(Portfoli?,1:100)
 
 set.seed(1)
 alpha.fn (Portfolio,sample(1:100,100,replace=TRUE))
@@ -65,7 +65,7 @@ plot(boot.out)
 # Exercise
 file.exists('Study/STAT/ISL on edX/ISL_notes/R Sessions/5.RData')
 dim(data)
-load('Study/STAT/ISL on edX/ISL_notes/R Sessions/5.RData')
+load('Study/STAT/ISL on edX/?SL_notes/R Sessions/5.RData')
 ls()
 X
 x
@@ -81,7 +81,7 @@ summary(lm(y~.,data=Xy))
 # Plot data
 matplot(Xy,type="l")
 
-# Bootstrap to estimate SE of B1
+# Bootstrap to estim?te SE of B1
 
 ## What is the standard error of alpha?
 
@@ -93,19 +93,19 @@ boot.out=boot(Xy$X1,meanFunc,R=1000)
 boot.out
 plot(boot.out)
 
-new.rows = c(101:200, 401:500, 101:200, 901:1000, 301:400, 1:100, 1:100, 801:900, 201:300, 701:800)
+new.rows = c(101:200, 401:500, 101:200, 901:1000, ?01:400, 1:100, 1:100, 801:900, 201:300, 701:800)
 new.Xy = Xy[new.rows, ]
 
- ### 
-alpha.fn=function(data, index){
-  with(Xy[index,],alpha(X1,y))
-}
+# Estimating the Accuracy of a Linear Regression Model
+boot.fn = function(data, index)
+  return(coef(lm(y~X1, data = Xy, subset = index)))  
+boot.fn(Auto, 1:1000)
 
-alpha.fn(Xy$X1,1:100)
-
+# boot.fn can also?be used to make bootstrap estimates
 set.seed(1)
-alpha.fn (Xy,sample(1:100,100,replace=TRUE))
+boot.fn(XY, sample(1000,1000, replace = T))
+# another sample
+boot.fn(XY, sample(1000,1000, replace = T))
 
-boot.out=boot(Xy,alpha.fn,R=1000)
-boot.out
-plot(boot.out)
+# then compute standard errors of 1000 bootstrap estimates
+boot(Xy, boot.fn, 1000)
